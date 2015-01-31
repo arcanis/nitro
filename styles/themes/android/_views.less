@@ -1,0 +1,154 @@
+.nitro-view-panel {
+    position: absolute;
+    left: 0;
+
+    transition: transform .3s, opacity .3s;
+}
+
+.nitro-view[nitro-related=yes] {
+
+    &[nitro-direction=forward] {
+
+        .nitro-view-panel.ng-enter {
+            right: 0;
+
+            transform: scaleX(0.0);
+            transform-origin: right;
+        }
+
+        .nitro-view-panel.ng-enter.ng-enter-active {
+            transform: scaleX(1.0);
+        }
+
+        .nitro-view-panel.ng-leave {
+            left: 0;
+
+            transform: scaleX(1.0);
+            transform-origin: left;
+        }
+
+        .nitro-view-panel.ng-leave.ng-leave-active {
+            transform: scaleX(0.0);
+        }
+
+    }
+
+    &[nitro-direction=backward] {
+
+        .nitro-view-panel.ng-enter {
+            left: 0;
+
+            transform: scaleX(0.0);
+            transform-origin: left;
+        }
+
+        .nitro-view-panel.ng-enter.ng-enter-active {
+            transform: scaleX(1.0);
+        }
+
+        .nitro-view-panel.ng-leave {
+            right: 0;
+
+            transform: scaleX(1.0);
+            transform-origin: right;
+        }
+
+        .nitro-view-panel.ng-leave.ng-leave-active {
+            transform: scaleX(0.0);
+        }
+
+    }
+
+}
+
+.nitro-view[nitro-related=no] {
+
+    &[nitro-direction=forward] {
+
+        .nitro-view-panel.ng-enter {
+            z-index: 1;
+
+            transform: scale(0.7);
+            opacity: 0.0;
+        }
+
+        .nitro-view-panel.ng-enter-active {
+            transform: scale(1.0);
+            opacity: 1.0;
+        }
+
+        .nitro-view-panel.ng-leave {
+            z-index: -1;
+        }
+
+    }
+
+    &[nitro-direction=backward] {
+
+        .nitro-view-panel.ng-leave {
+            z-index: 1;
+
+            transform: scale(1.0);
+            opacity: 1.0;
+        }
+
+        .nitro-view-panel.ng-leave-active {
+            transform: scale(0.7);
+            opacity: 0.0;
+        }
+
+    }
+
+}
+
+.nitro-view {
+
+    &[nitro-direction=left] {
+
+        .nitro-view-panel {
+            transform-origin: left;
+        }
+
+        .nitro-view-panel.ng-enter {
+            transform: translateX(-100%);
+        }
+
+        .nitro-view-panel.ng-enter-active {
+            transform: translateX(0%);
+        }
+
+        .nitro-view-panel.ng-leave {
+            transform: translateX(0%);
+        }
+
+        .nitro-view-panel.ng-leave-active {
+            transform: translateX(100%);
+        }
+
+    }
+
+    &[nitro-direction=right] {
+
+        .nitro-view-panel {
+            transform-origin: left;
+        }
+
+        .nitro-view-panel.ng-enter {
+            transform: translateX(100%);
+        }
+
+        .nitro-view-panel.ng-enter-active {
+            transform: translateX(0%);
+        }
+
+        .nitro-view-panel.ng-leave {
+            transform: translateX(0%);
+        }
+
+        .nitro-view-panel.ng-leave-active {
+            transform: translateX(-100%);
+        }
+
+    }
+
+}

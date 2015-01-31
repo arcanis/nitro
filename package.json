@@ -1,0 +1,14 @@
+{
+    "dependencies" : {
+        "6to5ify" : "^4.0.0",
+        "browserify" : "^8.1.2",
+        "less" : "^2.3.1",
+        "uglify-js" : "^2.4.16"
+    },
+
+    "scripts" : {
+        "build-css" : "$(npm bin)/lessc -x styles/nitro.less > dist/nitro.min.css",
+        "build-js" : "$(npm bin)/browserify -t 6to5ify sources/nitro.js | $(npm bin)/uglifyjs > dist/nitro.min.js",
+        "build" : "npm run-script build-js && npm run-script build-css"
+    }
+}

@@ -1,0 +1,45 @@
+.nitro-tabs {
+    display: flex;
+    flex-direction: column;
+
+    flex: auto;
+}
+
+.nitro-tabs-def {
+    display: none;
+}
+
+.nitro-tabs-bar {
+    display: flex;
+
+    flex: none;
+}
+
+.nitro-tab-pointer {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    z-index: 1;
+
+    width: 100%;
+
+    pointer-events: none;
+}
+
+.nitro-tabs[position="bottom"] {
+
+    .nitro-view {
+        order: 1;
+    }
+
+    .nitro-tabs-bar {
+        order: 2;
+    }
+
+}
+
+.nitro-tab {
+    position: relative;
+
+    flex: 1;
+}

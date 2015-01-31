@@ -1,0 +1,64 @@
+* {
+    box-sizing: border-box;
+}
+
+html, body, .nitro-page {
+    padding: 0;
+    margin: 0;
+
+    width: 100%;
+    height: 100%;
+}
+
+.nitro-menu, .nitro-page {
+    display: flex;
+    flex-direction: column;
+}
+
+.nitro-header {
+    display: flex;
+
+    flex: none;
+}
+
+.nitro-content {
+    position: relative;
+
+    flex: auto;
+}
+
+.nitro-overlay {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+
+    z-index: 1;
+}
+
+.nitro-disable-transitions,
+.nitro-disable-transitions * {
+    transition: none !important;
+}
+
+.nitro-color-sets(@component, @ruleset) {
+
+    .nitro-color-ref(@name, @color) {
+        @{component}-@{name} {
+            @ruleset();
+        }
+    }
+
+    .nitro-color-ref(normal, #2980b9);
+    .nitro-color-ref(warning, #f39c12);
+    .nitro-color-ref(light, #ecf0f1);
+
+}
+
+@import "./_menus";
+@import "./_popovers";
+@import "./_tabs";
+@import "./_views";
+
+@import "./themes/android/android";

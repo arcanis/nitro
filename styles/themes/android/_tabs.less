@@ -1,0 +1,34 @@
+.nitro-tabs-bar {
+    box-shadow: 0px 2px 3px 0px rgba(0, 0, 0, .15);
+}
+
+.nitro-tabs[position="bottom"] > .nitro-tabs-bar {
+    box-shadow: 0px -2px 3px 0px rgba(0, 0, 0, .15);
+}
+
+.nitro-tab-label {
+    overflow: hidden;
+
+    padding: 0 10px;
+
+    text-align: center;
+    text-overflow: ellipsis;
+    line-height: 45px;
+    white-space: nowrap;
+}
+
+.nitro-color-sets(~'.nt-tabs', {
+
+   > .nitro-tabs-bar {
+        background: linear-gradient(to bottom, @color, darken(@color, 2%));
+        color: contrast(@color);
+   }
+
+   > .nitro-tabs-bar .nitro-tab-pointer {
+       height: 2px;
+
+       background: contrast(@color);
+       transition: transform .3s;
+   }
+
+});

@@ -1,0 +1,31 @@
+.nitro-menu {
+    transition: background .3s;
+}
+
+.nitro-menu[active] {
+    background: rgba(0, 0, 0, 0.4);
+}
+
+.nitro-menu-target {
+    width: 80%;
+
+    max-width: 400px;
+}
+
+.nitro-menu-panel {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+
+    transition: transform .3s;
+}
+
+.nitro-menu[side=left] .nitro-menu-panel {
+    transform: translateX(-100%);
+}
+
+.nitro-menu[side=right] .nitro-menu-panel {
+    transform: translateX(100%);
+}
+
+.nitro-menu[active] .nitro-menu-panel {
+    transform: translateX(0);
+}

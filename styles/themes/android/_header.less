@@ -1,0 +1,63 @@
+.nitro-header {
+    position: relative;
+
+    height: 45px;
+
+    font-size: 17px;
+    line-height: 45px;
+}
+
+.nitro-color-sets(~'.nt-header', {
+    background: linear-gradient(to bottom, @color, darken(@color, 2%));
+    color: contrast(@color);
+});
+
+
+.nitro-color-sets(~'[has-tabs-top].nt-header', {
+    background: @color;
+    color: contrast(@color);
+});
+
+.nitro-header .nitro-tools {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    display: flex;
+}
+
+.nitro-header .nitro-tools[side=primary] {
+    left: 0;
+}
+
+.nitro-header .nitro-tools[side=secondary] {
+    right: 0;
+}
+
+.nitro-header-title {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+
+    overflow: hidden;
+
+    padding: 0 45px;
+
+    text-align: center;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.nitro-header .nitro-tool {
+    flex: none;
+
+    padding: 0 10px;
+}
+
+.nitro-header .nitro-tool .icon {
+    vertical-align: middle;
+
+    font-size: 32px;
+    line-height: 32px;
+}

@@ -1,0 +1,55 @@
+.nitro-popover {
+    position: absolute;
+
+    width: 200px;
+
+    background: #ffffff;
+    box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, .35);
+}
+
+.nitro-popover {
+    right: 5px;
+    top: 5px;
+}
+
+.nitro-popover-target.nitro-active-add,
+.nitro-popover-target.nitro-active-remove {
+    transition: .2s;
+}
+
+.nitro-popover-target.nitro-active-add .nitro-popover {
+    opacity: .8;
+
+    transform: scaleX(.7) scaleY(.7);
+    transform-origin: top right;
+
+    transition: transform .2s, opacity .2s;
+}
+
+.nitro-popover-target.nitro-active-add-active .nitro-popover {
+    opacity: 1;
+
+    transform: scaleX(1) scaleY(1);
+}
+
+.nitro-popover-target.nitro-active-remove .nitro-popover {
+    opacity: 1;
+
+    transform: scaleX(1) scaleY(1);
+    transform-origin: top right;
+
+    transition: transform .1s, opacity .1s;
+}
+
+.nitro-popover-target.nitro-active-remove-active .nitro-popover {
+    opacity: 0;
+
+    transform: scaleX(.7) scaleY(.7);
+}
+
+.nitro-popover-content {
+    padding: 0 20px;
+
+    font-size: 16px;
+    line-height: 40px;
+}

@@ -36,21 +36,21 @@ export var view = [ '$animate', '$compile', '$nitroNavigation', '$rootScope', ( 
 
             }
 
-            registerRouteListener( ) {
+            registerStateListener( ) {
 
-                this._listener = $rootScope.$on( '$nitroRouteChangeSuccess', ( e, { type, route } ) => {
-                    this.applyViewMapSet( type, this.getViewMapSetFromRoute( route ) );
+                this._listener = $rootScope.$on( '$nitroStateChangeSuccess', ( e, { type, state } ) => {
+                    this.applyViewMapSet( type, this.getViewMapSetFromState( state ) );
                 } );
 
-                if ( $nitroNavigation.currentRoute ) {
-                    this.applyViewMapSet( 'direct', this.getViewMapSetFromRoute( $nitroNavigation.currentRoute ) );
+                if ( $nitroNavigation.currentState ) {
+                    this.applyViewMapSet( 'direct', this.getViewMapSetFromState( $nitroNavigation.currentState ) );
                 } else {
                     this.applyViewMapSet( 'direct', [ ] );
                 }
 
             }
 
-            getViewMapSetFromRoute( route ) {
+            getViewMapSetFromState( state ) {
 
                 function _pick( source, what ) {
 
@@ -65,7 +65,7 @@ export var view = [ '$animate', '$compile', '$nitroNavigation', '$rootScope', ( 
 
                 var viewMapSet = [ ];
 
-                for ( var node = route; node; node = node.parent ) {
+                for ( var node = state; node; node = node.parent ) {
 
                     if ( ! node.template && ! node.views )
                         continue ;
@@ -76,7 +76,7 @@ export var view = [ '$animate', '$compile', '$nitroNavigation', '$rootScope', ( 
 
                     for ( var name of Object.keys( viewMap ) ) {
                         var view = viewMap[ name ] = Object.create( viewMap[ name ] );
-                        view.parameters = _pick( route.parameters, node.keys );
+                        view.parameters = _pick( state.parameters, node.keys );
                     }
 
                     viewMapSet.unshift( viewMap );
@@ -186,7 +186,7 @@ export var view = [ '$animate', '$compile', '$nitroNavigation', '$rootScope', ( 
             if ( parentNitroView ) {
                 nitroView.setParent( parentNitroView );
             } else {
-                nitroView.registerRouteListener( );
+                nitroView.registerStateListener( );
             }
 
             $scope.$on( '$destroy', e => {

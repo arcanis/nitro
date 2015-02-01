@@ -10,15 +10,15 @@ class Navigation {
         this._router = router;
         this._callbacks = { };
 
-        this.currentRoute = null;
+        this.currentState = null;
 
         this.$rootScope.$on( '$nitroLocationChangeSuccess', ( e, { forward, state } ) => {
-            this._triggerRouteChange( this._resolveUrl( $nitroLocation.path( ) ), {
+            this._triggerStateChange( this._resolveUrl( $nitroLocation.path( ) ), {
                 type : forward ? 'forward' : 'backward'
             } );
         } );
 
-        this._triggerRouteChange( this._resolveUrl( $nitroLocation.path( ) ), {
+        this._triggerStateChange( this._resolveUrl( $nitroLocation.path( ) ), {
             type : 'direct'
         } );
 
@@ -26,9 +26,9 @@ class Navigation {
 
     goTo( path, { replace = false } = { } ) {
 
-        var route = this._resolveUrl( path );
+        var state = this._resolveUrl( path );
 
-        if ( ! route )
+        if ( ! state )
             throw new Error( 'Invalid path ' + path );
 
         this.$nitroLocation.path( path, { replace } );
@@ -56,36 +56,36 @@ class Navigation {
 
     }
 
-    _loadRouteTemplates( route ) {
+    _loadStateTemplates( state ) {
 
-        if ( ! route.views )
-            return this._loadObjectTemplate( route );
+        if ( ! state.views )
+            return this._loadObjectTemplate( state );
 
-        return Promise.all( Object.keys( route.views ).map( name => {
-            return this._loadObjectTemplate( route.views[ name ] );
+        return Promise.all( Object.keys( state.views ).map( name => {
+            return this._loadObjectTemplate( state.views[ name ] );
         } ) );
 
     }
 
-    _loadAllRequiredTemplates( route ) {
+    _loadAllRequiredTemplates( state ) {
 
         var templateLoaders = [ ];
 
-        for ( var node = route; node; node = node.parent )
-            templateLoaders.push( this._loadRouteTemplates( node ) );
+        for ( var node = state; node; node = node.parent )
+            templateLoaders.push( this._loadStateTemplates( node ) );
 
         return Promise.all( templateLoaders );
 
     }
 
-    _triggerRouteChange( route, { type } ) {
+    _triggerStateChange( state, { type } ) {
 
-        if ( ! route )
+        if ( ! state )
             return ;
 
-        this._loadAllRequiredTemplates( route ).then( ( ) => {
-            this.$rootScope.$broadcast( '$nitroRouteChangeSuccess', {
-                route : this._currentRoute = route,
+        this._loadAllRequiredTemplates( state ).then( ( ) => {
+            this.$rootScope.$broadcast( '$nitroStateChangeSuccess', {
+                state : this._currentState = state,
                 type : type
             } );
         } );
@@ -104,7 +104,8 @@ export class NavigationProvider {
 
     constructor( ) {
 
-        this._routes = [ ];
+        this._states = [ ];
+        this._otherwise = '/';
 
         this.$get = [ '$nitroLocation', '$nitroTools', '$rootScope', '$templateRequest', ( $nitroLocation, $nitroTools, $rootScope, $templateRequest ) => {
             return new Navigation( { $nitroLocation, $nitroTools, $rootScope, $templateRequest }, {
@@ -114,90 +115,98 @@ export class NavigationProvider {
 
     }
 
-    route( name, options ) {
+    state( name, options ) {
 
-        this._routes.push( angular.extend( { name }, options ) );
+        this._states.push( angular.extend( { name }, options ) );
 
         return this;
 
     }
 
-    _finalizeRoutes( ) {
+    otherwise( path ) {
 
-        var routeByName = { };
+        this._otherwise = path;
 
-        function _register( route ) {
+        return this;
 
-            routeByName[ route.name ] = route;
+    }
+
+    _finalizeStates( ) {
+
+        var stateByName = { };
+
+        function _register( state ) {
+
+            stateByName[ state.name ] = state;
 
         }
 
-        function _setupRouteHierarchy( route ) {
+        function _setupStateHierarchy( state ) {
 
-            var name = route.name;
+            var name = state.name;
             var pivot = name.lastIndexOf( '.' );
             var parentName = name.substr( 0, pivot );
 
-            routeByName[ name ] = route;
+            stateByName[ name ] = state;
 
             if ( ! parentName )
                 return ;
 
-            if ( ! routeByName[ parentName ] )
-                throw new Error( `The parent route of ${name} has not been defined` );
+            if ( ! stateByName[ parentName ] )
+                throw new Error( `The parent state of ${name} has not been defined` );
 
-            route.parent = routeByName[ parentName ];
+            state.parent = stateByName[ parentName ];
 
-            if ( routeByName[ parentName ].pattern ) {
-                route.pattern = routeByName[ parentName ].pattern + route.pattern;
+            if ( stateByName[ parentName ].pattern ) {
+                state.pattern = stateByName[ parentName ].pattern + state.pattern;
             }
 
         }
 
-        function _buildRegexp( route ) {
+        function _buildRegexp( state ) {
 
-            var regexpString = route.pattern;
-            route.keys = [ ];
+            var regexpString = state.pattern;
+            state.keys = [ ];
 
             if ( ! regexpString )
                 return ;
 
             regexpString = regexpString.replace( /:(\w+)(\(?)/g, ( _, name, regexp ) => {
-                route.keys.push( name );
+                state.keys.push( name );
                 return regexp ? '(' : '([\\w-]+)';
             } );
 
-            route.regexp = new RegExp( '^' + regexpString + '$' );
+            state.regexp = new RegExp( '^' + regexpString + '$' );
 
         }
 
-        function _excludeAbstractRoutes( route ) {
+        function _excludeAbstractStates( state ) {
 
-            return ! route.abstract;
+            return ! state.abstract;
 
         }
 
-        var routes = this._routes.slice( );
+        var states = this._states.slice( );
 
-        routes.forEach( _register );
-        routes.forEach( _setupRouteHierarchy );
-        routes.forEach( _buildRegexp );
+        states.forEach( _register );
+        states.forEach( _setupStateHierarchy );
+        states.forEach( _buildRegexp );
 
-        return routes.filter( _excludeAbstractRoutes );
+        return states.filter( _excludeAbstractStates );
 
     }
 
     _getRouter( ) {
 
-        var routes = this._finalizeRoutes( );
+        var states = this._finalizeStates( );
         var otherwise = this._otherwise;
 
         return function router( path, { otherwiseRedirect = true } = { } ) {
 
             var match;
 
-            for ( var t = 0, T = routes.length; t < T; ++ t )
-                if ( ( match = path.match( routes[ t ].regexp ) ) )
+            for ( var t = 0, T = states.length; t < T; ++ t )
+                if ( ( match = path.match( states[ t ].regexp ) ) )
                     break ;
 
             if ( ! match && otherwise && otherwiseRedirect )
@@ -206,15 +215,15 @@ export class NavigationProvider {
             if ( ! match )
                 return null;
 
-            var route = Object.create( routes[ t ] );
+            var state = Object.create( states[ t ] );
 
-            route.path = path;
-            route.parameters = { };
+            state.path = path;
+            state.parameters = { };
 
-            for ( var t = 0, T = route.keys.length; t < T; ++ t )
-                route.parameters[ route.keys[ t ] ] = match[ 1 + t ];
+            for ( var t = 0, T = state.keys.length; t < T; ++ t )
+                state.parameters[ state.keys[ t ] ] = match[ 1 + t ];
 
-            return route;
+            return state;
 
         };
 

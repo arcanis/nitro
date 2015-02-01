@@ -19,6 +19,10 @@ class Location {
 
         } );
 
+        if ( ! this.path( ) ) {
+            this.path( '/', { replace : true } );
+        }
+
     }
 
     path( path, { state = { }, replace = false } = { } ) {

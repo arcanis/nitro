@@ -44,13 +44,19 @@ class Navigation {
     _loadObjectTemplate( object ) {
 
         if ( typeof object.template === 'string' )
-            return Promise.resolve( object.templatePromise );
+            return Promise.resolve( );
 
-        object.template = typeof object.template === 'undefined'
+        if ( ! object.template && ! object.templateUrl )
+            return Promise.resolve( );
+
+        if ( object._templateLoader )
+            return object._templateLoader;
+
+        var templatePromise = ! object.template
             ? this._loadTemplate( object.templateUrl )
             : object.template;
 
-        return object.template.then( template => {
+        return object._templateLoader = templatePromise.then( template => {
             object.template = template;
         } );
 

@@ -6,7 +6,7 @@ export var menu = [ '$nitroMenus', ( $nitroMenus ) => {
         replace : true,
 
         template : `
-            <div class="nitro-menu" ng-click="closeMenu()">
+            <div class="nitro-menu" ng-click="$close()">
                 <div class="nitro-menu-target">
                     <div class="nitro-menu-panel" ng-click="$event.stopPropagation()" ng-transclude>
                     </div>
@@ -44,9 +44,13 @@ export var menu = [ '$nitroMenus', ( $nitroMenus ) => {
 
             $nitroMenus.registerMenu( nitroMenu );
 
-            $scope.closeMenu = function ( ) {
+            $scope.$close = function ( ) {
                 nitroMenu.unselect( );
             };
+
+            $scope.$on( '$nitroItemActionTriggerSuccess', ( ) => {
+                $scope.$close( );
+            } );
 
             $scope.$on( '$destroy', ( ) => {
                 $nitroMenus.unregisterMenu( nitroMenu );

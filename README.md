@@ -1,5 +1,9 @@
 # Nitro
 
+## Demo
+
+A demo of this framework capabilities is available on [Codepen](http://codepen.io/arcanis/pen/dPVoRe).
+
 ## License
 
 > The MIT License (MIT)

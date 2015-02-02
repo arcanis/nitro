@@ -1,6 +1,9 @@
 import { application }         from './directives/application';
 import { content }             from './directives/content';
 import { header }              from './directives/header';
+import { item }                from './directives/item';
+import { lipsum }              from './directives/lipsum';
+import { loading }             from './directives/loading';
 import { menu }                from './directives/menu';
 import { page }                from './directives/page';
 import { popover }             from './directives/popover';
@@ -14,6 +17,7 @@ import { view }                from './directives/view';
 
 import { ApplicationProvider } from './services/Application';
 import { HistoryBackProvider } from './services/HistoryBack';
+import { LoadingProvider }     from './services/Loading';
 import { LocationProvider }    from './services/Location';
 import { MenusProvider }       from './services/Menus';
 import { NavigationProvider }  from './services/Navigation';
@@ -25,6 +29,9 @@ window.angular.module( 'nitro', [ ] )
     .directive( 'nitroApplication' , application )
     .directive( 'nitroContent'     , content )
     .directive( 'nitroHeader'      , header )
+    .directive( 'nitroItem'        , item )
+    .directive( 'nitroLipsum'      , lipsum )
+    .directive( 'nitroLoading'     , loading )
     .directive( 'nitroMenu'        , menu )
     .directive( 'nitroPage'        , page )
     .directive( 'nitroPopover'     , popover )
@@ -38,6 +45,7 @@ window.angular.module( 'nitro', [ ] )
 
     .provider( '$nitroApplication' , ApplicationProvider )
     .provider( '$nitroHistoryBack' , HistoryBackProvider )
+    .provider( '$nitroLoading'     , LoadingProvider )
     .provider( '$nitroLocation'    , LocationProvider )
     .provider( '$nitroMenus'       , MenusProvider )
     .provider( '$nitroNavigation'  , NavigationProvider )

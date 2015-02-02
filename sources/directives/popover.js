@@ -24,6 +24,10 @@ export var popover = [ '$nitroPopover', ( $nitroPopover ) => {
                 $nitroPopover.close( );
             };
 
+            $scope.$on( '$nitroItemActionTriggerSuccess', ( ) => {
+                $scope.$close( );
+            } );
+
         }
 
     };

@@ -8,7 +8,7 @@ class Navigation {
         this.$templateRequest = $templateRequest;
 
         this._router = router;
-        this._callbacks = { };
+        this._version = { };
 
         this.currentState = null;
 
@@ -16,10 +16,6 @@ class Navigation {
             this._triggerStateChange( this._resolveUrl( $nitroLocation.path( ) ), {
                 type : forward ? 'forward' : 'backward'
             } );
-        } );
-
-        this._triggerStateChange( this._resolveUrl( $nitroLocation.path( ) ), {
-            type : 'direct'
         } );
 
     }
@@ -89,12 +85,55 @@ class Navigation {
         if ( ! state )
             return ;
 
-        this._loadAllRequiredTemplates( state ).then( ( ) => {
-            this.$rootScope.$broadcast( '$nitroStateChangeSuccess', {
-                state : this._currentState = state,
-                type : type
+        var version = this._version = { };
+
+        var ready = false;
+        var holders = 0;
+
+        var next = ( ) => {
+
+            if ( this._version !== version )
+                return ;
+
+            if ( ! ready )
+                return ;
+
+            this._loadAllRequiredTemplates( state ).then( ( ) => {
+                this.$rootScope.$broadcast( '$nitroStateChangeSuccess', {
+                    state : this._currentState = state,
+                    type : type
+                } );
             } );
-        } );
+
+        };
+
+        var holdDown = function ( ) {
+
+            var active = true;
+            holders += 1;
+
+            return function ( ) {
+
+                if ( ! active )
+                    return ;
+
+                active = false;
+                holders -= 1;
+
+                if ( holders === 0 ) {
+                    next( );
+                }
+
+            };
+
+        };
+
+        var event = this.$rootScope.$broadcast( '$nitroStateChangeStart', { state, holdDown } );
+        ready = true;
+
+        if ( ! event.defaultPrevented && holders === 0 ) {
+            next( );
+        }
 
     }
 

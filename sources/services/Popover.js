@@ -1,11 +1,11 @@
 class Popover {
 
-    constructor( { $animate, $compile, $nitroApplication, $nitroHistoryBack, $templateRequest }, { } ) {
+    constructor( { $animate, $compile, $nitroHistoryBack, $rootElement, $templateRequest }, { } ) {
 
         this.$animate = $animate;
         this.$compile = $compile;
-        this.$nitroApplication = $nitroApplication;
         this.$nitroHistoryBack = $nitroHistoryBack;
+        this.$rootElement = $rootElement;
         this.$templateRequest = $templateRequest;
 
     }
@@ -43,7 +43,7 @@ class Popover {
         var element = angular.element( '<nitro-popover/>' );
         element.html( template || '' );
 
-        this.$nitroApplication.rootElement.append( element );
+        this.$rootElement.append( element );
         this.$compile( element )( $scope );
 
         $scope.$on( '$destroy', ( ) => {
@@ -98,8 +98,8 @@ class Popover {
 export class PopoverProvider {
 
     constructor( ) {
-        this.$get = [ '$animate', '$compile', '$nitroApplication', '$nitroHistoryBack', '$templateRequest', ( $animate, $compile, $nitroApplication, $nitroHistoryBack, $templateRequest ) => {
-            return new Popover( { $animate, $compile, $nitroApplication, $nitroHistoryBack, $templateRequest }, {
+        this.$get = [ '$animate', '$compile', '$nitroHistoryBack', '$rootElement', '$templateRequest', ( $animate, $compile, $nitroHistoryBack, $rootElement, $templateRequest ) => {
+            return new Popover( { $animate, $compile, $nitroHistoryBack, $rootElement, $templateRequest }, {
             } );
         } ];
     }

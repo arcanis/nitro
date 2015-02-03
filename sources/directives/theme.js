@@ -1,4 +1,4 @@
-export var application = [ '$nitroApplication', '$window', ( $nitroApplication, $window ) => {
+export var theme = [ '$window', ( $window ) => {
 
     return {
 
@@ -6,11 +6,9 @@ export var application = [ '$nitroApplication', '$window', ( $nitroApplication, 
 
             var currentTheme = null;
 
-            $nitroApplication.setRootElement( $element );
+            $attrs.$observe( 'nitroTheme', ( ) => {
 
-            $attrs.$observe( 'theme', ( ) => {
-
-                var theme = $attrs.theme;
+                var theme = $attrs.nitroTheme;
 
                 if ( ! theme )
                     theme = 'android';

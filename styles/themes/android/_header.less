@@ -9,13 +9,12 @@
 
 .nitro-color-sets(~'.nt-header', {
     background: linear-gradient(to bottom, @color, darken(@color, 2%));
-    color: contrast(@color);
+    color: contrast(@color, @nitro-white, @nitro-black);
 });
-
 
 .nitro-color-sets(~'[has-tabs-top].nt-header', {
     background: @color;
-    color: contrast(@color);
+    color: contrast(@color, @nitro-white, @nitro-black);
 });
 
 .nitro-header .nitro-tools {

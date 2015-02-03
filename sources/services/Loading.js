@@ -1,9 +1,9 @@
 class Loading {
 
-    constructor( { $compile, $nitroApplication, $rootScope } ) {
+    constructor( { $compile, $rootElement, $rootScope } ) {
 
         this.$compile = $compile;
-        this.$nitroApplication = $nitroApplication;
+        this.$rootElement = $rootElement;
         this.$rootScope = $rootScope;
 
         this._element = angular.element( '<nitro-loading/>' );
@@ -11,7 +11,7 @@ class Loading {
 
         this._scope.messages = [ ];
 
-        this.$nitroApplication.rootElement.append( this._element );
+        this.$rootElement.append( this._element );
         this.$compile( this._element )( this._scope );
 
     }
@@ -33,8 +33,8 @@ class Loading {
 export class LoadingProvider {
 
     constructor( ) {
-        this.$get = [ '$compile', '$nitroApplication', '$rootScope', ( $compile, $nitroApplication, $rootScope ) => {
-            return new Loading( { $compile, $nitroApplication, $rootScope }, {
+        this.$get = [ '$compile', '$rootElement', '$rootScope', ( $compile, $rootElement, $rootScope ) => {
+            return new Loading( { $compile, $rootElement, $rootScope }, {
             } );
         } ];
     }

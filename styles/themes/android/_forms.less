@@ -1,0 +1,28 @@
+input, textarea {
+
+    color: #4D4D4D;
+
+    ::placeholder {
+        color: #DDDDDD;
+    }
+
+}
+
+
+.nitro-color-sets(~'.nt-button', {
+    display: block;
+
+    margin-top: 10px;
+    margin-bottom: 10px;
+
+    width: 100%;
+
+    border: 1px solid darken(@color, 2%);
+    border-radius: 2px;
+
+    font-size: 17px;
+    line-height: 42px;
+
+    color: contrast(@color, @nitro-white, @nitro-black);
+    background: @color;
+});

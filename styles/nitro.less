@@ -1,3 +1,11 @@
+@nitro-white: #FFFFFF;
+@nitro-black: #4D4D4D;
+
+@nitro-color-normal: #2980B9;
+@nitro-color-warning: #F39C12;
+@nitro-color-light: #ECF0F1;
+@nitro-color-dark: #333333;
+
 * {
     box-sizing: border-box;
 }
@@ -50,9 +58,10 @@ html, body, .nitro-page {
         }
     }
 
-    .nitro-color-ref(normal, #2980b9);
-    .nitro-color-ref(warning, #f39c12);
-    .nitro-color-ref(light, #ecf0f1);
+    .nitro-color-ref(normal, @nitro-color-normal);
+    .nitro-color-ref(warning, @nitro-color-warning);
+    .nitro-color-ref(light, @nitro-color-light);
+    .nitro-color-ref(dark, @nitro-color-dark);
 
 }
 
@@ -62,6 +71,7 @@ html, body, .nitro-page {
 @import "./_menus";
 @import "./_popovers";
 @import "./_tabs";
+@import "./_utils";
 @import "./_views";
 
 @import "./themes/android/android";

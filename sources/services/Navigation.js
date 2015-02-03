@@ -8,9 +8,9 @@ class Navigation {
         this.$templateRequest = $templateRequest;
 
         this._router = router;
-        this._version = { };
 
-        this.currentState = null;
+        this._state = null;
+        this._version = { };
 
         this.$rootScope.$on( '$nitroLocationChangeSuccess', ( e, { forward, state } ) => {
             this._triggerStateChange( this._resolveUrl( $nitroLocation.path( ) ), {
@@ -85,6 +85,9 @@ class Navigation {
         if ( ! state )
             return ;
 
+        if ( this._state === null )
+            type = 'direct';
+
         var version = this._version = { };
 
         var ready = false;
@@ -100,7 +103,7 @@ class Navigation {
 
             this._loadAllRequiredTemplates( state ).then( ( ) => {
                 this.$rootScope.$broadcast( '$nitroStateChangeSuccess', {
-                    state : this._currentState = state,
+                    state : this._state = state,
                     type : type
                 } );
             } );

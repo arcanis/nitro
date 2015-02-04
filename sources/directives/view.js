@@ -157,8 +157,13 @@ export var view = [ '$animate', '$compile', '$nitroNavigation', '$rootScope', ( 
                     $rootScope.$apply( );
 
                     return Promise.all( [ leaving, entering ] ).then( ( ) => {
+
                         this.$element.removeAttr( 'nitro-direction' );
                         this.$element.removeAttr( 'nitro-related' );
+
+                        var element = after.element[ 0 ].querySelector( '[autofocus]' );
+                        element && element.focus( );
+
                     } );
 
                 } );

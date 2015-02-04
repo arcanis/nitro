@@ -10,6 +10,7 @@
 }
 
 .nitro-tabs-bar {
+    z-index: @nitro-layer-tabs;
     display: flex;
 
     flex: none;
@@ -19,7 +20,7 @@
     position: absolute;
     left: 0;
     bottom: 0;
-    z-index: 1;
+    z-index: @nitro-layer-tabs-pointers;
 
     width: 100%;
 

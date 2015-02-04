@@ -12,7 +12,7 @@
         }
 
         > .nitro-view-panel.ng-enter {
-            z-index: 1;
+            z-index: @nitro-layer-views-hover;
 
             transform: translateX(100%);
         }
@@ -22,6 +22,8 @@
         }
 
         > .nitro-view-panel.ng-leave {
+            z-index: @nitro-layer-views-under;
+
             transform: translateX(0);
             filter: brightness(100%);
         }
@@ -41,6 +43,8 @@
         }
 
         > .nitro-view-panel.ng-enter {
+            z-index: @nitro-layer-views-under;
+
             transform: translateX(-50%);
             filter: brightness(30%);
         }
@@ -51,7 +55,7 @@
         }
 
         > .nitro-view-panel.ng-leave {
-            z-index: 1;
+            z-index: @nitro-layer-views-hover;
 
             transform: translateX(0);
         }
@@ -74,7 +78,7 @@
         }
 
         > .nitro-view-panel.ng-enter {
-            z-index: 1;
+            z-index: @nitro-layer-views-hover;
 
             transform: scale(0.7);
             opacity: 0;
@@ -86,6 +90,8 @@
         }
 
         > .nitro-view-panel.ng-leave {
+            z-index: @nitro-layer-views-under;
+
             filter: brightness(100%);
         }
 
@@ -103,6 +109,8 @@
         }
 
         > .nitro-view-panel.ng-enter {
+            z-index: @nitro-layer-views-under;
+
             filter: brightness(30%);
         }
 
@@ -111,7 +119,7 @@
         }
 
         > .nitro-view-panel.ng-leave {
-            z-index: 1;
+            z-index: @nitro-layer-views-hover;
 
             transform: scale(1.0);
             opacity: 1;
@@ -132,6 +140,8 @@
 
         > .nitro-view-panel.ng-enter,
         > .nitro-view-panel.ng-leave {
+            z-index: @nitro-layer-views-normal;
+
             transition: transform .3s, opacity .3s;
         }
 
@@ -157,6 +167,8 @@
 
         > .nitro-view-panel.ng-enter,
         > .nitro-view-panel.ng-leave {
+            z-index: @nitro-layer-views-normal;
+
             transition: transform .3s, opacity .3s;
         }
 

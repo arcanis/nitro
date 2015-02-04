@@ -1,10 +1,27 @@
 @nitro-white: #FFFFFF;
 @nitro-black: #4D4D4D;
 
-@nitro-color-normal: #2980B9;
+@nitro-color-normal:  #2980B9;
 @nitro-color-warning: #F39C12;
-@nitro-color-light: #ECF0F1;
-@nitro-color-dark: #333333;
+@nitro-color-light:   #ECF0F1;
+@nitro-color-dark:    #333333;
+
+@nitro-layer-1: 1000;
+@nitro-layer-2: 2000;
+@nitro-layer-3: 3000;
+@nitro-layer-4: 4000;
+@nitro-layer-5: 5000;
+@nitro-layer-6: 6000;
+
+@nitro-layer-views-normal:  @nitro-layer-1;
+@nitro-layer-views-under:   @nitro-layer-2;
+@nitro-layer-views-hover:   @nitro-layer-3;
+@nitro-layer-tabs:          @nitro-layer-4;
+@nitro-layer-headers:       @nitro-layer-4;
+@nitro-layer-tabs-pointers: @nitro-layer-5;
+@nitro-layer-popovers:      @nitro-layer-6;
+@nitro-layer-menus:         @nitro-layer-6;
+@nitro-layer-loadings:      @nitro-layer-6;
 
 * {
     box-sizing: border-box;
@@ -23,26 +40,10 @@ html, body, .nitro-page {
     flex-direction: column;
 }
 
-.nitro-header {
-    display: flex;
-
-    flex: none;
-}
-
 .nitro-content {
     position: relative;
 
     flex: auto;
-}
-
-.nitro-overlay {
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-
-    z-index: 1;
 }
 
 .nitro-disable-transitions,

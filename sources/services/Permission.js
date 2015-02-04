@@ -1,7 +1,8 @@
 class Permission {
 
-    constructor( { $q }, { roles } ) {
+    constructor( { $injector, $q }, { roles } ) {
 
+        this.$injector = $injector;
         this.$q = $q;
 
         this._roles = roles;
@@ -50,7 +51,7 @@ class Permission {
 
     checkRoles( roles, expected ) {
 
-        return this._every( roles.map( role => Promise.resolve( this._roles[ role ]( ) ) ), value => value === expected );
+        return this._every( roles.map( role => Promise.resolve( this.$injector.invoke( this._roles[ role ] ) ) ), value => value === expected );
 
     }
 
@@ -88,8 +89,8 @@ export class PermissionProvider {
 
         this._roles = { };
 
-        this.$get = [ '$q', ( $q ) => {
-            return new Permission( { $q }, {
+        this.$get = [ '$injector', '$q', ( $injector, $q ) => {
+            return new Permission( { $injector, $q }, {
                 roles : angular.copy( this._roles )
             } );
         } ];

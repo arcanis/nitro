@@ -51,7 +51,7 @@ class Permission {
 
     checkRoles( roles, expected ) {
 
-        return this._every( roles.map( role => Promise.resolve( this.$injector.invoke( this._roles[ role ] ) ) ), value => value === expected );
+        return this._every( roles.map( role => Promise.resolve( this.$injector.invoke( this._roles[ role ] ) ) ), value => Boolean( value ) === expected );
 
     }
 

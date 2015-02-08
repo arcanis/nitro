@@ -10,7 +10,7 @@ export var tabs = [ '$nitroTools', ( $nitroTools ) => {
                 <div class="nitro-tabs-def" ng-transclude>
                 </div>
                 <div class="nitro-tabs-bar">
-                    <div ng-repeat="tab in tabs" class="nitro-tab" nitro-sref="{{ tab.sref }}" nitro-sref-action="replace">
+                    <div ng-repeat="tab in tabs" class="nitro-tab" ng-class="{ 'nitro-active' : $index == selected }" nitro-sref="{{ tab.sref }}" nitro-sref-action="replace">
                         <div class="nitro-tab-label" ng-bind="tab.title"></div>
                         <div ng-if="$index == 0 && selected >= 0" class="nitro-tab-pointer" ng-style="{ transform : 'translateX(' + (selected * 100) + '%)' }"></div>
                     </div>
@@ -31,13 +31,13 @@ export var tabs = [ '$nitroTools', ( $nitroTools ) => {
 
                 this.$scope.$on( '$nitroViewChangeTransitionStart', ( e, after, before, options ) => {
 
-                    if ( before && after && before.tab && after.tab ) {
-                        options.direction = this.getDirection( before.tab, after.tab );
+                    if ( before && after && before.view.tab && after.view.tab ) {
+                        options.direction = this.getDirection( before.view.tab, after.view.tab );
                     } else {
                         options.direction = 'direct';
                     }
 
-                    var tab = after && this.findTabByName( after.tab );
+                    var tab = after && this.findTabByName( after.view.tab );
                     var index = tab ? this.$scope.tabs.indexOf( tab ) : -1;
 
                     this.$scope.selected = index;

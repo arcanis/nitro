@@ -1,4 +1,4 @@
-export var view = [ '$animate', '$compile', '$nitroNavigation', '$rootScope', ( $animate, $compile, $nitroNavigation, $rootScope ) => {
+export var view = [ '$animate', '$compile', '$controller', '$nitroNavigation', '$rootScope', ( $animate, $compile, $controller, $nitroNavigation, $rootScope ) => {
 
     return {
 
@@ -101,7 +101,7 @@ export var view = [ '$animate', '$compile', '$nitroNavigation', '$rootScope', ( 
 
                 } else {
 
-                    if ( ! this._current || view.template !== this._current.template || ! angular.equals( view.parameters, this._current.parameters ) ) {
+                    if ( ! this._current || view.name !== this._current.view.name || ! angular.equals( view.parameters, this._current.view.parameters ) ) {
                         this.applyView( type, view );
                         type = 'direct';
                     }
@@ -117,27 +117,38 @@ export var view = [ '$animate', '$compile', '$nitroNavigation', '$rootScope', ( 
             applyView( direction, view ) {
 
                 var before = this._current;
-                var after = this._current = Object.create( view );
+                var after = this._current = { view };
 
                 if ( before && before.scope )
                     before.scope.$destroy( );
 
-                after.parameters = angular.copy( view.parameters );
-                after.element = angular.element( '<div class="nitro-view-panel"/>' );
+                after.element = angular.element( '<div class="nitro-view-panel"/>' ).html( after.view.template );
                 after.scope = this.$scope.$new( );
 
                 after.scope.$on( '$nitroViewChangeTransitionStart', e => {
                     e.stopPropagation( );
                 } );
 
+                if ( after.view.controller ) {
+
+                    after.controller = $controller( after.view.controller, { $scope : after.scope } );
+
+                    after.element.data( '$ngControllerController', after.controller );
+                    after.element.children( ).data( '$ngControllerController', after.controller );
+
+                    if ( after.view.controllerAs ) {
+                        after.scope[ after.view.controllerAs ] = after.controller;
+                    }
+
+                }
+
                 this.$element.append( after.element );
-                after.element.html( after.template || '' );
                 $compile( after.element.contents( ) )( after.scope );
                 after.element.detach( );
                 after.scope.$apply( );
 
                 this.prepareElementSwitch( after, before, {
-                    direction, related : before && after.group === before.group
+                    direction, related : before && after.view.group === before.view.group
                 } );
 
             }

@@ -6,7 +6,7 @@ export var content = [ ( ) => {
         replace : true,
 
         template : `
-            <div class="nitro-content" ng-transclude>
+            <div class="nitro-content" nitro-transclude scope-policy="preserve">
             </div>
         `
 

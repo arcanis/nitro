@@ -8,7 +8,7 @@ export var menu = [ '$nitroMenus', ( $nitroMenus ) => {
         template : `
             <div class="nitro-menu" ng-click="$close()">
                 <div class="nitro-menu-target">
-                    <div class="nitro-menu-panel" ng-click="$event.stopPropagation()" ng-transclude>
+                    <div class="nitro-menu-panel" ng-click="$event.stopPropagation()" nitro-transclude scope-policy="child">
                     </div>
                 </div>
             </div>

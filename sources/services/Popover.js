@@ -1,19 +1,19 @@
 class Popover {
 
-    constructor( { $animate, $compile, $nitroHistoryBack, $rootElement, $templateRequest }, { } ) {
+    constructor( { $animate, $compile, $nitroHistoryBack, $nitroTools, $rootElement }, { } ) {
 
         this.$animate = $animate;
         this.$compile = $compile;
         this.$nitroHistoryBack = $nitroHistoryBack;
+        this.$nitroTools = $nitroTools;
         this.$rootElement = $rootElement;
-        this.$templateRequest = $templateRequest;
 
     }
 
-    fromTemplateUrl( templateUrl, options ) {
+    create( options ) {
 
-        var elementPromise = this.$templateRequest( templateUrl ).then( template => {
-            return this.create( angular.extend( { template }, options ) );
+        var elementPromise = this.$nitroTools.template( options ).then( template => {
+            return this._createElement( angular.extend( { }, options, { template } ) );
         } );
 
         return {
@@ -21,7 +21,7 @@ class Popover {
             open : ( target ) => {
 
                 elementPromise.then( element => {
-                    this.open( element, target );
+                    this._openElement( element, target );
                 } );
 
             },
@@ -29,7 +29,7 @@ class Popover {
             close : ( ) => {
 
                 elementPromise.then( element => {
-                    this.close( element );
+                    this._closeElement( element );
                 } );
 
             }
@@ -38,15 +38,18 @@ class Popover {
 
     }
 
-    create( { template, $scope } ) {
+    _createElement( { template, $scope, scope = $scope } ) {
 
         var element = angular.element( '<nitro-popover/>' );
         element.html( template || '' );
 
-        this.$rootElement.append( element );
-        this.$compile( element )( $scope );
+        var subscope = scope.$new( );
+        subscope.$close = ( ) => { this._closeElement( element ) };
 
-        $scope.$on( '$destroy', ( ) => {
+        this.$rootElement.append( element );
+        this.$compile( element )( subscope );
+
+        subscope.$on( '$destroy', ( ) => {
             element.remove( );
         } );
 
@@ -54,7 +57,7 @@ class Popover {
 
     }
 
-    open( element, target ) {
+    _openElement( element, target ) {
 
         if ( ! element || ! target )
             return ;
@@ -63,7 +66,7 @@ class Popover {
             target = target.currentTarget;
 
         this._defuseBackAction = this.$nitroHistoryBack.registerBackAction( ( ) => {
-            this.close( );
+            this._close( element );
         } );
 
         var boundingRect = angular.element( target )[ 0 ].getBoundingClientRect( );
@@ -78,9 +81,9 @@ class Popover {
 
     }
 
-    close( element ) {
+    _closeElement( element ) {
 
-        if ( element && this._currentElement !== element )
+        if ( ! element || this._currentElement !== element )
             return ;
 
         if ( this._defuseBackAction )
@@ -98,8 +101,8 @@ class Popover {
 export class PopoverProvider {
 
     constructor( ) {
-        this.$get = [ '$animate', '$compile', '$nitroHistoryBack', '$rootElement', '$templateRequest', ( $animate, $compile, $nitroHistoryBack, $rootElement, $templateRequest ) => {
-            return new Popover( { $animate, $compile, $nitroHistoryBack, $rootElement, $templateRequest }, {
+        this.$get = [ '$animate', '$compile', '$nitroHistoryBack', '$nitroTools', '$rootElement', ( $animate, $compile, $nitroHistoryBack, $nitroTools, $rootElement ) => {
+            return new Popover( { $animate, $compile, $nitroHistoryBack, $nitroTools, $rootElement }, {
             } );
         } ];
     }

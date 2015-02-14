@@ -6,6 +6,7 @@ import { loading }              from './directives/loading';
 import { menu }                 from './directives/menu';
 import { page }                 from './directives/page';
 import { popover }              from './directives/popover';
+import { popup }                from './directives/popup';
 import { sref }                 from './directives/sref';
 import { tabs }                 from './directives/tabs';
 import { tab }                  from './directives/tab';
@@ -22,6 +23,7 @@ import { MenusProvider }        from './services/Menus';
 import { NavigationProvider }   from './services/Navigation';
 import { PermissionProvider }   from './services/Permission';
 import { PopoverProvider }      from './services/Popover';
+import { PopupProvider }        from './services/Popup';
 import { ToolsProvider }        from './services/Tools';
 
 import { nitroPermissionSetup } from './setups/nitroPermission';
@@ -37,6 +39,7 @@ window.angular.module( 'nitro', [ ] )
     .directive( 'nitroMenu'        , menu )
     .directive( 'nitroPage'        , page )
     .directive( 'nitroPopover'     , popover )
+    .directive( 'nitroPopup'       , popup )
     .directive( 'nitroSref'        , sref )
     .directive( 'nitroTabs'        , tabs )
     .directive( 'nitroTab'         , tab )
@@ -53,6 +56,7 @@ window.angular.module( 'nitro', [ ] )
     .provider( '$nitroNavigation'  , NavigationProvider )
     .provider( '$nitroPermission'  , PermissionProvider )
     .provider( '$nitroPopover'     , PopoverProvider )
+    .provider( '$nitroPopup'       , PopupProvider )
     .provider( '$nitroTools'       , ToolsProvider )
 
     .run( nitroPermissionSetup )

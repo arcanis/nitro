@@ -1,11 +1,9 @@
-export var popover = [ '$nitroPopover', ( $nitroPopover ) => {
+export var popover = [ ( ) => {
 
     return {
 
         transclude : true,
         replace : true,
-
-        scope : true,
 
         template : `
             <div class="nitro-popover-target">
@@ -18,11 +16,7 @@ export var popover = [ '$nitroPopover', ( $nitroPopover ) => {
             </div>
         `,
 
-        link( $scope ) {
-
-            $scope.$close = function ( ) {
-                $nitroPopover.close( );
-            };
+        link( $scope, $element, $attrs ) {
 
             $scope.$on( '$nitroItemActionTriggerSuccess', ( ) => {
                 $scope.$close( );

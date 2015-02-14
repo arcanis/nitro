@@ -1,5 +1,21 @@
 class Tools {
 
+    constructor( { $q, $templateRequest }, { } ) {
+
+        this.$q = $q;
+        this.$templateRequest = $templateRequest;
+
+    }
+
+    template( { template, templateUrl } ) {
+
+        if ( template )
+            return this.$q.when( template );
+
+        return this.$templateRequest( templateUrl );
+
+    }
+
     search( array, predicate ) {
 
         for ( var t = 0, T = array.length; t < T; ++ t )
@@ -88,8 +104,8 @@ export class ToolsProvider {
 
     constructor( ) {
 
-        this.$get = [ ( ) => {
-            return new Tools( { }, {
+        this.$get = [ '$q', '$templateRequest', ( $q, $templateRequest ) => {
+            return new Tools( { $q, $templateRequest }, {
             } );
         } ];
 

@@ -1,8 +1,14 @@
 # Nitro
 
+## What is nitro?
+
+Nitro is an ongoing work (that I work on-and-off) that aims to be a "better Ionic" (big goal, I know). It works quite well for now, and fixes some issues that I had with Ionic (especially on the back button).
+
+Now that a valid proof-of-concept has been made, I think I will rebuild it later using React, that I've grown rather fond off.
+
 ## Demo
 
-A demo of this framework capabilities is available on [Codepen](http://codepen.io/arcanis/pen/dPVoRe).
+A demo of this framework is available on [Codepen](http://codepen.io/arcanis/pen/dPVoRe).
 
 ## License
 

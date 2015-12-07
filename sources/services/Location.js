@@ -25,23 +25,23 @@ class Location {
 
     }
 
-    path( path, { state = { }, replace = false } = { } ) {
+    path( newPath, { state = { }, replace = false } = { } ) {
 
-        if ( typeof path === 'undefined' )
+        if ( typeof newPath === 'undefined' )
             return this.$window.location.hash.substr( 1 );
 
-        if ( ! path )
-            path = this.path( );
+        if ( ! newPath )
+            newPath = this.path( );
 
-        if ( path[ 0 ] !== '/' )
-            path = '/' + path;
+        if ( newPath[ 0 ] !== '/' )
+            newPath = '/' + newPath;
 
         this._currentStateId = state.$nitroLocationStateId = ! replace
             ? this._currentStateId + 1
             : this._currentStateId;
 
         var action = replace ? 'replaceState' : 'pushState';
-        this.$window.history[ action ]( state, null, '#' + path );
+        this.$window.history[ action ]( state, null, '#' + newPath );
 
         this.$rootScope.$broadcast( '$nitroLocationChangeSuccess', {
             forward : true,

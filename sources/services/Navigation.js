@@ -20,14 +20,14 @@ class Navigation {
 
     }
 
-    goTo( path, { replace = false } = { } ) {
+    goTo( newPath, { replace = false } = { } ) {
 
-        var state = this._resolveUrl( path );
+        var state = this._resolveUrl( newPath );
 
         if ( ! state )
-            throw new Error( 'Invalid path ' + path );
+            throw new Error( 'Invalid path ' + newPath );
 
-        this.$nitroLocation.path( path, { replace } );
+        this.$nitroLocation.path( newPath, { replace } );
 
     }
 
